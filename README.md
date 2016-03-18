@@ -71,7 +71,7 @@ The following props are used:
 Here is a simple example of the different things you can do with the module:
 
 
-![simple](https://www.projectinf.com/content/images/github/simple.png =300x534)
+![simple](https://www.projectinf.com/content/images/github/simple.png)
 
 The code behind it:
 
