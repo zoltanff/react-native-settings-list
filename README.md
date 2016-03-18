@@ -70,8 +70,7 @@ The following props are used:
 ---
 Here is a simple example of the different things you can do with the module:
 
-
-![simple](https://www.projectinf.com/content/images/github/simple.png)
+<img src="https://www.projectinf.com/content/images/github/simple.png" width="300" height="534">
 
 The code behind it:
 
@@ -133,7 +132,7 @@ The code behind it:
 Here is an example that looks very very close to the default iPhone settings page.
 
 
-![Image of Simple Example](https://www.projectinf.com/content/images/github/realistic.png =300x534)
+<img src="https://www.projectinf.com/content/images/github/realistic.png" width="300" height="534">
 
 The code behind this is:
 
