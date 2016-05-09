@@ -1,5 +1,7 @@
 'use strict';
-import React, {
+import React from 'react';
+
+import {
   AppRegistry,
   Component,
   StyleSheet,
