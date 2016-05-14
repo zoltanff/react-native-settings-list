@@ -40,6 +40,7 @@ The following props are used:
 * **borderColor** : Sets border color for the settings list (optional)
 * **defaultItemSize** : Used to set all the Setting Items default width (default is 50) (optional)
 * **underlayColor** : Used to set all Setting Items default underlayColor (optional)
+
 ### <a name='slh'>\<SettingsList.Header></a>
 The following props are used:
 
