@@ -39,7 +39,7 @@ The following props are used:
 * **backgroundColor** : Used to set all Setting Items default background color (default color is white) (optional)
 * **borderColor** : Sets border color for the settings list (optional)
 * **defaultItemSize** : Used to set all the Setting Items default width (default is 50) (optional)
-
+* **underlayColor** : Used to set all Setting Items default underlayColor (optional)
 ### <a name='slh'>\<SettingsList.Header></a>
 The following props are used:
 
@@ -54,6 +54,7 @@ The following props are used:
 * **icon** : A component for the icon.  Doesn't need to be an image, accepts a node (optional)
 * **itemWidth** : (number) Changes the individual item's width.  Overwrites **\<SettingsLists>** defaultItemSize (optional)
 * **backgroundColor** : Changes the individual item's background color.  Overwrites default **\<SettingsList>** backgroundColor (optional)
+* **underlayColor** : Changes the individual item's underlayColor color.  Overwrites default **\<SettingsList>** underlayColor (optional)
 * **onPress** : (func) On press Callback for item (optional)
 * **hasNavArrow** : (true/false) Display the navigation arrow (optional)
 * **arrowStyle** : (StyleSheet) Style for the navigation arrow (optional)
