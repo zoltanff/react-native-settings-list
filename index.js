@@ -16,12 +16,14 @@ class SettingsList extends React.Component {
     backgroundColor: React.PropTypes.string,
     borderColor: React.PropTypes.string,
     defaultItemSize: React.PropTypes.number,
+    underlayColor: React.PropTypes.string
   };
 
   static defaultProps ={
     backgroundColor: 'white',
     borderColor: 'black',
-    defaultItemSize: 50
+    defaultItemSize: 50,
+    underlayColor: 'transparent'
   };
 
   _getGroups(){
@@ -95,7 +97,7 @@ class SettingsList extends React.Component {
   _itemView(item, index, max){
     var border = index === max-1 ? {borderWidth:0} : {borderBottomWidth:1, borderColor: this.props.borderColor};
     return (
-      <TouchableHighlight key={'item_' + index} underlayColor='transparent' onPress={item.onPress}>
+      <TouchableHighlight key={'item_' + index} underlayColor={item.underlayColor ? item.underlayColor : this.props.underlayColor} onPress={item.onPress}>
         <View style={[styles.itemBox, {backgroundColor: item.backgroundColor ? item.backgroundColor : this.props.backgroundColor}]}>
           {item.icon}
           <View style={[styles.titleBox, border, {height:item.itemWidth ? item.itemWidth : this.props.defaultItemSize}]}>
@@ -181,6 +183,11 @@ SettingsList.Item = React.createClass({
      * Individual background color. Can be globally set in the parent.
      */
     backgroundColor: React.PropTypes.string,
+
+    /**
+     * Individual underlay click color.  Can be globally set in the parent.
+     */
+    underlayColor: React.PropTypes.string,
     /**
      * Item on press callback.
      */
