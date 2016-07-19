@@ -8,8 +8,11 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  Switch
+  Switch,
+  Image
 } from 'react-native';
+
+const ARROW_ICON = require('./img/icon-arrow-settings.png');
 
 class SettingsList extends React.Component {
   static propTypes = {
@@ -115,7 +118,7 @@ class SettingsList extends React.Component {
                 onValueChange={(value) => item.switchOnValueChange(value)}
                 value={item.switchState}/>
                 : null}
-            {item.hasNavArrow ? <Text style={[styles.rightSideStyle, {fontSize:22, color: '#B1B1B1'}, item.arrowStyle]}>></Text> : null}
+            {item.hasNavArrow ? <Image style={[styles.rightSideStyle, item.arrowStyle]} source={ARROW_ICON} /> : null}
           </View>
         </View>
       </TouchableHighlight>
@@ -140,7 +143,7 @@ const styles = StyleSheet.create({
     alignSelf:'center'
   },
   rightSideStyle: {
-    marginRight:10,
+    marginRight:15,
     alignSelf:'center'
   },
 });
