@@ -114,6 +114,7 @@ class SettingsList extends React.Component {
               : null}
             {item.hasSwitch ?
               <Switch
+                {...item.switchProps}
                 style={styles.rightSideStyle}
                 onValueChange={(value) => item.switchOnValueChange(value)}
                 value={item.switchState}/>
@@ -208,6 +209,10 @@ SettingsList.Item = React.createClass({
      * Switch state
      */
     switchState: React.PropTypes.bool,
+    /**
+     * Switch props
+     */
+    switchProps: React.PropTypes.object,
     /**
      * On value change callback
      */
