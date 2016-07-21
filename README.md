@@ -61,6 +61,7 @@ The following props are used:
 * **arrowStyle** : (StyleSheet) Style for the navigation arrow (optional)
 * **hasSwitch** : (true/false) Enable a switch component (optional)
 * **switchState** : (true/false) Used to set the switch state (optional)
+* **switchProps** : (object) Extra Switch props like `onTintColor` (optional)
 * **switchOnValueChange** : (func) On switches value change callback (optional)
 * **titleInfo** : (string) Right side title information string (optional)
 * **titleInfoStyle** : (StyleSheet) Style for title information string (optional)
