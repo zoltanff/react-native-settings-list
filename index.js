@@ -8,6 +8,7 @@ import {
   Text,
   StyleSheet,
   ScrollView,
+  TextInput,
   Switch,
   Image
 } from 'react-native';
@@ -19,14 +20,16 @@ class SettingsList extends React.Component {
     backgroundColor: React.PropTypes.string,
     borderColor: React.PropTypes.string,
     defaultItemSize: React.PropTypes.number,
-    underlayColor: React.PropTypes.string
+    underlayColor: React.PropTypes.string,
+    defaultTitleStyle: Text.propTypes.style
   };
 
   static defaultProps ={
     backgroundColor: 'white',
     borderColor: 'black',
     defaultItemSize: 50,
-    underlayColor: 'transparent'
+    underlayColor: 'transparent',
+    defaultTitleStyle: {fontSize: 16}
   };
 
   _getGroups(){
@@ -103,8 +106,34 @@ class SettingsList extends React.Component {
       <TouchableHighlight key={'item_' + index} underlayColor={item.underlayColor ? item.underlayColor : this.props.underlayColor} onPress={item.onPress}>
         <View style={[styles.itemBox, {backgroundColor: item.backgroundColor ? item.backgroundColor : this.props.backgroundColor}]}>
           {item.icon}
+          {item.isAuth ?
+            <View style={[styles.titleBox, border]}>
+              <View style={{paddingLeft:5,flexDirection:'column',flex:1}}>
+                <View style={{borderBottomWidth:1,borderColor:this.props.borderColor}}>
+                  <TextInput
+                    ref="UserNameInputBlock"
+                    onSubmitEditing={() => this.refs.PasswordInputBlock.focus()}
+                    style={{flex:1,height:30, borderBottomWidth:1}}
+                    placeholder = "username"
+                    {...item.authPropsUser}
+                  />
+                </View>
+                <View>
+                  <TextInput
+                    ref="PasswordInputBlock"
+                    style={{flex:1,height:30}}
+                    placeholder = "password"
+                    secureTextEntry={true}
+                    returnKeyType={'go'}
+                    {...item.authPropsPW}
+                    onSubmitEditing={() => item.onPress()}
+                  />
+                </View>
+              </View>
+            </View>
+          :
           <View style={[styles.titleBox, border, {height:item.itemWidth ? item.itemWidth : this.props.defaultItemSize}]}>
-            <Text style={[item.titleStyle, styles.titleText]}>
+            <Text style={[item.titleStyle ? item.titleStyle : this.props.defaultTitleStyle, styles.titleText]}>
               {item.title}
             </Text>
             {item.titleInfo ?
@@ -119,8 +148,13 @@ class SettingsList extends React.Component {
                 onValueChange={(value) => item.switchOnValueChange(value)}
                 value={item.switchState}/>
                 : null}
-            {item.hasNavArrow ? <Image style={[styles.rightSideStyle, item.arrowStyle]} source={ARROW_ICON} /> : null}
+            {item.hasNavArrow ? item.arrowIcon ?
+              item.arrowIcon
+              :
+              <Image style={[styles.rightSideStyle, item.arrowStyle]} source={ARROW_ICON} /> : null
+            }
           </View>
+        }
         </View>
       </TouchableHighlight>
     )
@@ -173,7 +207,7 @@ SettingsList.Item = React.createClass({
     /**
      * Title being displayed
      */
-    title: React.PropTypes.string.isRequired,
+    title: React.PropTypes.string,
     titleStyle: Text.propTypes.style,
     /**
      * Icon displayed on the left of the settings item
@@ -183,6 +217,12 @@ SettingsList.Item = React.createClass({
      * Individual item width.  Can be globally set in the parent.
      */
     itemWidth: React.PropTypes.number,
+    /**
+     * Allows for the item to become an auth item
+     */
+    isAuth: React.PropTypes.bool,
+    authPropsUser: React.PropTypes.object,
+    authPropsPW: React.PropTypes.object,
     /**
      * Individual background color. Can be globally set in the parent.
      */
@@ -200,7 +240,9 @@ SettingsList.Item = React.createClass({
      * Enable or disable the > arrow at the end of the setting item.
      */
     hasNavArrow: React.PropTypes.bool,
-    arrowStyle: Text.propTypes.style,
+    arrowIcon: React.PropTypes.node,
+
+    arrowStyle: Image.propTypes.style,
     /**
      * Enable or disable a Switch component
      */
