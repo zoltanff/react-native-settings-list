@@ -144,6 +144,7 @@ class SettingsList extends React.Component {
                 {item.titleInfo}
               </Text>
               : null}
+            {item.rightSideContent ? item.rightSideContent : null}
             {item.hasSwitch ?
               <Switch
                 {...item.switchProps}
@@ -267,6 +268,10 @@ SettingsList.Item = React.createClass({
      */
     titleInfo: React.PropTypes.string,
     titleInfoStyle: Text.propTypes.style,
+    /**
+     * Right side content
+     */
+    rightSideContent: React.PropTypes.node,
   },
   getDefaultProps(){
     return {
