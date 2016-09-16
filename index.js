@@ -39,6 +39,9 @@ class SettingsList extends React.Component {
     let result = [];
     let other = [];
     React.Children.forEach(this.props.children, (child) => {
+      // Allow for null, optional fields
+      if(!child) return;
+
       if(child.type.displayName === 'Header'){
         if(groupNumber != -1){
           result[groupNumber] = {items: itemGroup, header: headers[groupNumber], other: other};
