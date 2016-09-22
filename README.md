@@ -257,5 +257,9 @@ onValueChange(value){
   this.setState({switchValue: value});
 }
 ```
+Here is an example of the android page:
 
+<img src="./documentation/android.png" width="300" height="534">
+
+The code can be found <a href="./Example/android.js">here</a>
 ###### <a href='#top'>Top</a>
