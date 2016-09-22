@@ -104,7 +104,15 @@ class SettingsList extends React.Component {
   }
 
   _itemView(item, index, max){
-    var border = index === max-1 ? {borderWidth:0} : {borderBottomWidth:1, borderColor: this.props.borderColor};
+    var border;
+    if(item.borderHide) {
+      switch(item.borderHide) {
+        case 'Top' : border = {borderBottomWidth:1, borderColor: this.props.borderColor}; break;
+        case 'Bottom' : border = {borderTopWidth:1, borderColor: this.props.borderColor}; break;
+      }
+    } else {
+      border = index === max-1 ? {borderWidth:0} : {borderBottomWidth:1, borderColor: this.props.borderColor};
+    }
     return (
       <TouchableHighlight key={'item_' + index} underlayColor={item.underlayColor ? item.underlayColor : this.props.underlayColor} onPress={item.onPress}>
         <View style={[styles.itemBox, {backgroundColor: item.backgroundColor ? item.backgroundColor : this.props.backgroundColor}]}>
@@ -272,6 +280,8 @@ SettingsList.Item = React.createClass({
      * Right side content
      */
     rightSideContent: React.PropTypes.node,
+    /* Gives opens to hide specific borders */
+    borderHide: React.PropTypes.oneOf(['Top', 'Bottom', 'Both'])
   },
   getDefaultProps(){
     return {
