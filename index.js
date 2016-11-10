@@ -68,7 +68,7 @@ class SettingsList extends React.Component {
 
   render(){
     return (
-      <ScrollView style={{flex:1}}>
+      <ScrollView>
         {this._getGroups().map((group, index) => {
           return this._groupView(group, index);
         })}
