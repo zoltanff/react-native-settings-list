@@ -139,7 +139,7 @@ render() {
             title='Different Colors Example'
             backgroundColor='#D1D1D1'
             titleStyle={{color:'blue'}}
-            arrowStyle={{color:'blue'}}
+            arrowStyle={{tintColor:'blue'}}
             onPress={() => Alert.alert('Different Colors Example Pressed')}/>
           <SettingsList.Header headerText='Different Grouping' headerStyle={{color:'white', marginTop:50}}/>
           <SettingsList.Item titleInfo='Some Information' hasNavArrow={false} title='Information Example'/>
