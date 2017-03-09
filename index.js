@@ -23,6 +23,7 @@ class SettingsList extends React.Component {
     underlayColor: React.PropTypes.string,
     defaultTitleStyle: Text.propTypes.style,
     defaultTitleInfoPosition: React.PropTypes.string,
+    scrollViewProps: React.PropTypes.object,
   };
 
   static defaultProps ={
@@ -69,7 +70,7 @@ class SettingsList extends React.Component {
 
   render(){
     return (
-      <ScrollView>
+      <ScrollView {...this.props.scrollViewProps}>
         {this._getGroups().map((group, index) => {
           return this._groupView(group, index);
         })}
