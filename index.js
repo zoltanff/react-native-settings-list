@@ -187,16 +187,24 @@ class SettingsList extends React.Component {
                 onValueChange={(value) => item.switchOnValueChange(value)}
                 value={item.switchState}/>
                 : null}
-            {item.hasNavArrow ? item.arrowIcon ?
-              item.arrowIcon
-              :
-              <Image style={[styles.rightSideStyle, item.arrowStyle]} source={ARROW_ICON} /> : null
-            }
+            {this.itemArrowIcon(item)}
           </View>
         }
         </View>
       </TouchableHighlight>
     )
+  }
+  
+  itemArrowIcon(item) {
+    if(item.arrowIcon) {
+        return item.arrowIcon;
+    }
+
+    if(item.hasArrowNav){
+        return <Image style={[styles.rightSideStyle, item.arrowStyle]} source={ARROW_ICON} />;
+    }
+
+    return null;
   }
 }
 module.exports = SettingsList;
