@@ -1,6 +1,10 @@
 # react-native-settings-list
 ---
 A clean and highly customizable React Native implementation of a list of settings for a settings page.<a name='top'/>
+
+[![NPM Version](https://img.shields.io/npm/v/react-native-settings-list.svg?style=flat)](https://www.npmjs.com/package/react-native-settings-list)
+[![NPM Downloads](https://img.shields.io/npm/dm/react-native-settings-list.svg?style=flat)](https://www.npmjs.com/package/react-native-settings-list)
+
 ## Quick Access
 * <a href='#install'>Installation</a>
 * <a href='#usage'>Usage</a>
