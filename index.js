@@ -81,7 +81,7 @@ class SettingsList extends React.Component {
       return (
         <View key={'group_' + index}>
           {group.other}
-          <Text style={[{margin:5},group.header.headerStyle]}>{group.header.headerText}</Text>
+          <Text style={[{margin:5},group.header.headerStyle]} numberOfLines={1} ellipsizeMode="tail">{group.header.headerText}</Text>
           <View style={{borderTopWidth:1, borderBottomWidth:1, borderColor: this.props.borderColor}}>
             {group.items.map((item, index) => {
               return this._itemView(item,index, group.items.length);
@@ -143,12 +143,12 @@ class SettingsList extends React.Component {
               </View>
             </View>
           :
-          <View style={[styles.titleBox, border, {height:item.itemWidth ? item.itemWidth : this.props.defaultItemSize}]}>
-            <Text style={[item.titleStyle ? item.titleStyle : this.props.defaultTitleStyle, styles.titleText]}>
+          <View style={[styles.titleBox, border, {minHeight:item.itemWidth ? item.itemWidth : this.props.defaultItemSize}]}>
+            <Text style={[item.titleStyle ? item.titleStyle : this.props.defaultTitleStyle, styles.titleText]} numberOfLines={1} ellipsizeMode="tail">
               {item.title}
             </Text>
             {item.titleInfo ?
-              <Text style={[styles.rightSideStyle, {color: '#B1B1B1'}, item.titleInfoStyle]}>
+              <Text style={[styles.rightSideStyle, {color: '#B1B1B1'}, item.titleInfoStyle]} numberOfLines={1} ellipsizeMode="tail">
                 {item.titleInfo}
               </Text>
               : null}
