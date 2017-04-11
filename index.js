@@ -104,6 +104,28 @@ class SettingsList extends React.Component {
     }
   }
 
+  _itemEditableBlock(item, index, position) {
+    
+    return ([
+        <Text
+            key={'itemTitle_' + index}
+            style={[
+              item.titleStyle ? item.titleStyle : this.props.defaultTitleStyle,
+              position === 'Bottom' ? null : styles.titleText
+            ]}>
+            {item.title}
+        </Text>,
+        item.isEditable ?
+        <TextInput
+              key={item.id}
+              style={styles.editableText}
+              placeholder = {item.placeholder}
+              onChangeText={(text) => item.onTextChange(text)}
+              value={item.value} />
+        : null
+    ])
+  }
+
   _itemTitleBlock(item, index, position) {
     return ([
       <Text
@@ -174,9 +196,9 @@ class SettingsList extends React.Component {
           <View style={[styles.titleBox, border, {height:item.itemWidth ? item.itemWidth : this.props.defaultItemSize}]}>
             {titleInfoPosition === 'Bottom' ?
                 <View style={{flexDirection:'column',flex:1,justifyContent:'center'}}>
-                    {this._itemTitleBlock(item, index, 'Bottom')}
+                    {item.isEditable ? this._itemEditableBlock(item, inde, 'Bottom') : this._itemTitleBlock(item, index, 'Bottom')}
                 </View>
-              : this._itemTitleBlock(item, index)}
+              : item.isEditable ? this._itemEditableBlock(item, index) : this._itemTitleBlock(item, index)}
 
             {item.rightSideContent ? item.rightSideContent : null}
             {item.hasSwitch ?
@@ -219,6 +241,11 @@ const styles = StyleSheet.create({
     marginRight:15,
     alignSelf:'center'
   },
+  editableText: {
+    flex: 1,
+    textAlign: 'right',
+    marginRight: 15 
+  }
 });
 
 /**
