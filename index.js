@@ -23,6 +23,7 @@ class SettingsList extends React.Component {
     underlayColor: React.PropTypes.string,
     defaultTitleStyle: Text.propTypes.style,
     defaultTitleInfoPosition: React.PropTypes.string,
+    scrollViewProps: React.PropTypes.object,
   };
 
   static defaultProps ={
@@ -69,7 +70,7 @@ class SettingsList extends React.Component {
 
   render(){
     return (
-      <ScrollView>
+      <ScrollView {...this.props.scrollViewProps}>
         {this._getGroups().map((group, index) => {
           return this._groupView(group, index);
         })}
@@ -82,7 +83,7 @@ class SettingsList extends React.Component {
       return (
         <View key={'group_' + index}>
           {group.other}
-          <Text style={[{margin:5},group.header.headerStyle]}>{group.header.headerText}</Text>
+          <Text style={[{margin:5},group.header.headerStyle]} numberOfLines={1} ellipsizeMode="tail">{group.header.headerText}</Text>
           <View style={{borderTopWidth:1, borderBottomWidth:1, borderColor: this.props.borderColor}}>
             {group.items.map((item, index) => {
               return this._itemView(item,index, group.items.length);
@@ -171,7 +172,7 @@ class SettingsList extends React.Component {
               </View>
             </View>
           :
-          <View style={[styles.titleBox, border, {height:item.itemWidth ? item.itemWidth : this.props.defaultItemSize}]}>
+          <View style={[styles.titleBox, border, {minHeight:item.itemWidth ? item.itemWidth : this.props.defaultItemSize}]}>
             {titleInfoPosition === 'Bottom' ?
                 <View style={{flexDirection:'column',flex:1,justifyContent:'center'}}>
                     {this._itemTitleBlock(item, index, 'Bottom')}
@@ -186,16 +187,24 @@ class SettingsList extends React.Component {
                 onValueChange={(value) => item.switchOnValueChange(value)}
                 value={item.switchState}/>
                 : null}
-            {item.hasNavArrow ? item.arrowIcon ?
-              item.arrowIcon
-              :
-              <Image style={[styles.rightSideStyle, item.arrowStyle]} source={ARROW_ICON} /> : null
-            }
+            {this.itemArrowIcon(item)}
           </View>
         }
         </View>
       </TouchableHighlight>
     )
+  }
+  
+  itemArrowIcon(item) {
+    if(item.arrowIcon) {
+        return item.arrowIcon;
+    }
+
+    if(item.hasArrowNav){
+        return <Image style={[styles.rightSideStyle, item.arrowStyle]} source={ARROW_ICON} />;
+    }
+
+    return null;
   }
 }
 module.exports = SettingsList;
