@@ -106,7 +106,7 @@ class SettingsList extends React.Component {
   }
 
   _itemEditableBlock(item, index, position) {
-    
+
     return ([
         <Text
             key={'itemTitle_' + index}
@@ -119,7 +119,7 @@ class SettingsList extends React.Component {
         item.isEditable ?
         <TextInput
               key={item.id}
-              style={styles.editableText}
+              style={item.editableTextStyle ? item.editableTextStyle : item.editableText}
               placeholder = {item.placeholder}
               onChangeText={(text) => item.onTextChange(text)}
               value={item.value} />
@@ -141,8 +141,10 @@ class SettingsList extends React.Component {
         <Text
             key={'itemTitleInfo_' + index}
             style={[
-              position === 'Bottom' ? null : styles.rightSideStyle,
-              {color: '#B1B1B1'},
+              item.rightSideStyle ? item.rightSideStyle
+              :
+                position === 'Bottom' ? null : styles.rightSide,
+                {color: '#B1B1B1'},
               item.titleInfoStyle
             ]}>
             {item.titleInfo}
@@ -166,10 +168,10 @@ class SettingsList extends React.Component {
 
     return (
       <TouchableHighlight accessible={false} key={'item_' + index} underlayColor={item.underlayColor ? item.underlayColor : this.props.underlayColor} onPress={item.onPress} onLongPress={item.onLongPress}>
-        <View style={[styles.itemBox, {backgroundColor: item.backgroundColor ? item.backgroundColor : this.props.backgroundColor}]}>
+        <View style={item.itemBoxStyle ? item.itemBoxStyle : [styles.itemBox, {backgroundColor: item.backgroundColor ? item.backgroundColor : this.props.backgroundColor}]}>
           {item.icon}
           {item.isAuth ?
-            <View style={[styles.titleBox, border]}>
+            <View style={item.titleBoxStyle ? item.titleBoxStyle : [styles.titleBox, border]}>
               <View style={{paddingLeft:5,flexDirection:'column',flex:1}}>
                 <View style={{borderBottomWidth:1,borderColor:this.props.borderColor}}>
                   <TextInput
@@ -194,7 +196,7 @@ class SettingsList extends React.Component {
               </View>
             </View>
           :
-          <View style={[styles.titleBox, border, {minHeight:item.itemWidth ? item.itemWidth : this.props.defaultItemSize}]}>
+          <View style={item.titleBoxStyle ? item.titleBoxStyle : [styles.titleBox, border, {minHeight:item.itemWidth ? item.itemWidth : this.props.defaultItemSize}]}>
             {titleInfoPosition === 'Bottom' ?
                 <View style={{flexDirection:'column',flex:1,justifyContent:'center'}}>
                     {item.isEditable ? this._itemEditableBlock(item, inde, 'Bottom') : this._itemTitleBlock(item, index, 'Bottom')}
@@ -205,7 +207,7 @@ class SettingsList extends React.Component {
             {item.hasSwitch ?
               <Switch
                 {...item.switchProps}
-                style={styles.rightSideStyle}
+                style={styles.rightSide}
                 onValueChange={(value) => item.switchOnValueChange(value)}
                 value={item.switchState}/>
                 : null}
@@ -216,14 +218,14 @@ class SettingsList extends React.Component {
       </TouchableHighlight>
     )
   }
-  
+
   itemArrowIcon(item) {
     if(item.arrowIcon) {
         return item.arrowIcon;
     }
 
     if(item.hasArrowNav){
-        return <Image style={[styles.rightSideStyle, item.arrowStyle]} source={ARROW_ICON} />;
+        return <Image style={[styles.rightSide, item.arrowStyle]} source={ARROW_ICON} />;
     }
 
     return null;
@@ -246,14 +248,14 @@ const styles = StyleSheet.create({
     flex:1,
     alignSelf:'center'
   },
-  rightSideStyle: {
+  rightSide: {
     marginRight:15,
     alignSelf:'center'
   },
   editableText: {
     flex: 1,
     textAlign: 'right',
-    marginRight: 15 
+    marginRight: 15
   }
 });
 
@@ -287,8 +289,26 @@ SettingsList.Item = React.createClass({
      * Icon displayed on the left of the settings item
      */
     icon: React.PropTypes.node,
+
     /**
-     * Individual item width.  Can be globally set in the parent.
+     * Item Box Style
+     */
+    itemBoxStyle : View.propTypes.style,
+    /**
+     * Title Box Style
+     */
+    titleBoxStyle: View.propTypes.style,
+    /**
+     * Right Side Style
+     */
+    rightSideStyle: View.propTypes.style,
+    /**
+     * Editable Right Side Style
+     */
+    editableTextStyle: View.propTypes.style,
+
+    /**
+     * Individual item width.  Can be globally set in the parent.  Will become deprecated
      */
     itemWidth: React.PropTypes.number,
     /**
@@ -298,7 +318,7 @@ SettingsList.Item = React.createClass({
     authPropsUser: React.PropTypes.object,
     authPropsPW: React.PropTypes.object,
     /**
-     * Individual background color. Can be globally set in the parent.
+     * Individual background color. Can be globally set in the parent. Will become Deprecated
      */
     backgroundColor: React.PropTypes.string,
 
