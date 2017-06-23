@@ -224,7 +224,7 @@ class SettingsList extends React.Component {
         return item.arrowIcon;
     }
 
-    if(item.hasArrowNav){
+    if(item.hasNavArrow){
         return <Image style={[styles.rightSide, item.arrowStyle]} source={ARROW_ICON} />;
     }
 
