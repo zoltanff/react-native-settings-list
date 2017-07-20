@@ -27,5 +27,8 @@
   "devDependencies": {
     "react-native": ">=0.18.0",
     "react": ">=0.14.0"
+  },
+  "dependencies": {
+    "prop-types": "^15.5.10"
   }
 }
