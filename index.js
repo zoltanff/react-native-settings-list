@@ -70,7 +70,7 @@ class SettingsList extends React.Component {
 
   render(){
     return (
-      <ScrollView {...this.props.scrollViewProps}>
+      <ScrollView {...this.props.scrollViewProps} ref="_scrollView">
         {this._getGroups().map((group, index) => {
           return this._groupView(group, index);
         })}
