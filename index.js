@@ -80,27 +80,30 @@ class SettingsList extends React.Component {
   }
 
   _groupView(group, index){
+    let items;
+    if (group.items.length > 0) {
+      items = (
+        <View style={{borderTopWidth:1, borderBottomWidth:1, borderColor: this.props.borderColor}}>
+          {group.items.map((item, index) => {
+            return this._itemView(item,index, group.items.length);
+          })}
+        </View>
+      );
+    }
+
     if(group.header){
       return (
         <View key={'group_' + index}>
           {group.other}
           <Text style={[{margin:5},group.header.headerStyle]} numberOfLines={1} ellipsizeMode="tail">{group.header.headerText}</Text>
-          <View style={{borderTopWidth:1, borderBottomWidth:1, borderColor: this.props.borderColor}}>
-            {group.items.map((item, index) => {
-              return this._itemView(item,index, group.items.length);
-            })}
-          </View>
+          {items}
         </View>
       )
     } else {
       return (
         <View key={'group_' + index}>
           {group.other}
-          <View style={{borderTopWidth:1, borderBottomWidth:1, borderColor: this.props.borderColor}}>
-            {group.items.map((item, index) => {
-              return this._itemView(item,index, group.items.length);
-            })}
-          </View>
+          {items}
         </View>
       )
     }
