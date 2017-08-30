@@ -95,7 +95,7 @@ class SettingsList extends React.Component {
       return (
         <View key={'group_' + index}>
           {group.other}
-          <Text style={[{margin:5},group.header.headerStyle]} numberOfLines={group.header.headerNumberOfLines} ellipsizeMode="tail">{group.header.headerText}</Text>
+          <Text style={[{margin:5},group.header.headerStyle]} numberOfLines={group.header.headerNumberOfLines} ellipsizeMode="tail" ref={group.header.headerRef}>{group.header.headerText}</Text>
           <View style={{borderTopWidth:1, borderBottomWidth:1, borderColor: this.props.borderColor}}>
             {group.items.map((item, index) => {
               return this._itemView(item,index, group.items.length);
@@ -175,7 +175,7 @@ class SettingsList extends React.Component {
     let titleInfoPosition = item.titleInfoPosition ? item.titleInfoPosition : this.props.defaultTitleInfoPosition;
 
     return (
-      <TouchableHighlight accessible={false} key={'item_' + index} underlayColor={item.underlayColor ? item.underlayColor : this.props.underlayColor} onPress={item.onPress} onLongPress={item.onLongPress}>
+      <TouchableHighlight accessible={false} key={'item_' + index} underlayColor={item.underlayColor ? item.underlayColor : this.props.underlayColor} onPress={item.onPress} onLongPress={item.onLongPress} ref={item.itemRef}>
         <View style={item.itemBoxStyle ? item.itemBoxStyle : [styles.itemBox, {backgroundColor: item.backgroundColor ? item.backgroundColor : this.props.backgroundColor}]}>
           {item.icon}
           {item.isAuth ?
@@ -274,6 +274,7 @@ SettingsList.Header = React.createClass({
   propTypes: {
     headerText: PropTypes.string,
     headerStyle: Text.propTypes.style,
+    headerRef: React.PropTypes.func,
     headerNumberOfLines: React.PropTypes.number,
   },
   getDefaultProps() {
@@ -385,6 +386,9 @@ SettingsList.Item = React.createClass({
      */
     rightSideContent: PropTypes.node,
     /* Gives opens to hide specific borders */
+    borderHide: React.PropTypes.oneOf(['Top', 'Bottom', 'Both']),
+
+    itemRef: React.PropTypes.func,
     borderHide: PropTypes.oneOf(['Top', 'Bottom', 'Both'])
   },
   getDefaultProps(){
