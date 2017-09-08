@@ -40,16 +40,14 @@ class SettingsList extends React.Component {
     let headers = [];
     let itemGroup = [];
     let result = [];
-    let other = [];
     React.Children.forEach(this.props.children, (child) => {
       // Allow for null, optional fields
       if(!child) return;
 
       if(child.type.displayName === 'Header'){
         if(groupNumber != -1){
-          result[groupNumber] = {items: itemGroup, header: headers[groupNumber], other: other};
+          result[groupNumber] = {items: itemGroup, header: headers[groupNumber] };
           itemGroup = [];
-          other = [];
         }
         groupNumber++;
         headers[groupNumber] = child.props;
@@ -62,10 +60,10 @@ class SettingsList extends React.Component {
         if(groupNumber == -1){
           groupNumber++;
         }
-        other.push(child);
+        itemGroup.push(child);
       }
     });
-    result[groupNumber] = {items: itemGroup, header: headers[groupNumber], other: other};
+    result[groupNumber] = {items: itemGroup, header: headers[groupNumber] };
     return result;
   }
 
@@ -80,21 +78,9 @@ class SettingsList extends React.Component {
   }
 
   _groupView(group, index){
-    let items;
-    if (group.items.length > 0) {
-      items = (
-        <View style={{borderTopWidth:1, borderBottomWidth:1, borderColor: this.props.borderColor}}>
-          {group.items.map((item, index) => {
-            return this._itemView(item,index, group.items.length);
-          })}
-        </View>
-      );
-    }
-
     if(group.header){
       return (
         <View key={'group_' + index}>
-          {group.other}
           <Text style={[{margin:5},group.header.headerStyle]} numberOfLines={group.header.headerNumberOfLines} ellipsizeMode="tail" ref={group.header.headerRef}>{group.header.headerText}</Text>
           <View style={{borderTopWidth:1, borderBottomWidth:1, borderColor: this.props.borderColor}}>
             {group.items.map((item, index) => {
@@ -104,9 +90,19 @@ class SettingsList extends React.Component {
         </View>
       )
     } else {
+      let items;
+      if (group.items.length > 0) {
+        items = (
+          <View style={{borderTopWidth:1, borderBottomWidth:1, borderColor: this.props.borderColor}}>
+            {group.items.map((item, index) => {
+              return this._itemView(item,index, group.items.length);
+            })}
+          </View>
+        );
+      }
+
       return (
         <View key={'group_' + index}>
-          {group.other}
           {items}
         </View>
       )
@@ -163,6 +159,11 @@ class SettingsList extends React.Component {
 
   _itemView(item, index, max){
     var border;
+
+    if (item.type && item.type.displayName) {
+        return item;
+    }
+
     if(item.borderHide) {
       switch(item.borderHide) {
         case 'Top' : border = {borderBottomWidth:1, borderColor: this.props.borderColor}; break;
