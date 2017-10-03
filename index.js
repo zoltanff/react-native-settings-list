@@ -320,7 +320,7 @@ SettingsList.Item = React.createClass({
     /**
      * Editable Right Side Style
      */
-    editableTextStyle: View.propTypes.style,
+    editableTextStyle: Text.propTypes.style,
 
     /**
      * Individual item width.  Can be globally set in the parent.  Will become deprecated
