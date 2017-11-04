@@ -1,8 +1,8 @@
 'use strict'
 
-import React from 'react'
-import PropTypes from 'prop-types'
-import createReactClass from 'create-react-class'
+import React from 'react';
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 
 import {
 	View,
@@ -37,39 +37,37 @@ class SettingsList extends React.Component {
 		defaultTitleStyle: { fontSize: 16 },
 	}
 
-	_getGroups() {
-		var groupNumber = -1
-		let headers = []
-		let itemGroup = []
-		let result = []
-		let other = []
-		React.Children.forEach(this.props.children, child => {
-			// Allow for null, optional fields
-			if (!child) return
+  _getGroups(){
+    var groupNumber = -1;
+    let headers = [];
+    let itemGroup = [];
+    let result = [];
+    React.Children.forEach(this.props.children, (child) => {
+      // Allow for null, optional fields
+      if(!child) return;
 
-			if (child.type.displayName === 'Header') {
-				if (groupNumber != -1) {
-					result[groupNumber] = { items: itemGroup, header: headers[groupNumber], other: other }
-					itemGroup = []
-					other = []
-				}
-				groupNumber++
-				headers[groupNumber] = child.props
-			} else if (child.type.displayName === 'Item') {
-				if (groupNumber == -1) {
-					groupNumber++
-				}
-				itemGroup.push(child.props)
-			} else {
-				if (groupNumber == -1) {
-					groupNumber++
-				}
-				other.push(child)
-			}
-		})
-		result[groupNumber] = { items: itemGroup, header: headers[groupNumber], other: other }
-		return result
-	}
+      if(child.type.displayName === 'Header'){
+        if(groupNumber != -1){
+          result[groupNumber] = {items: itemGroup, header: headers[groupNumber] };
+          itemGroup = [];
+        }
+        groupNumber++;
+        headers[groupNumber] = child.props;
+      } else if(child.type.displayName === 'Item'){
+        if(groupNumber == -1){
+          groupNumber++;
+        }
+        itemGroup.push(child.props);
+      } else {
+        if(groupNumber == -1){
+          groupNumber++;
+        }
+        itemGroup.push(child);
+      }
+    });
+    result[groupNumber] = {items: itemGroup, header: headers[groupNumber] };
+    return result;
+  }
 
 	render() {
 		return (
@@ -81,46 +79,37 @@ class SettingsList extends React.Component {
 		)
 	}
 
-	_groupView(group, index) {
-		let items
-		if (group.items.length > 0) {
-			items = (
-				<View style={{ borderTopWidth: 1, borderBottomWidth: 1, borderColor: this.props.borderColor }}>
-					{group.items.map((item, index) => {
-						return this._itemView(item, index, group.items.length)
-					})}
-				</View>
-			)
-		}
+  _groupView(group, index){
+    if(group.header){
+      return (
+        <View key={'group_' + index}>
+          <Text style={[{margin:5},group.header.headerStyle]} numberOfLines={group.header.headerNumberOfLines} ellipsizeMode="tail" ref={group.header.headerRef}>{group.header.headerText}</Text>
+          <View style={{borderTopWidth:1, borderBottomWidth:1, borderColor: this.props.borderColor}}>
+            {group.items.map((item, index) => {
+              return this._itemView(item,index, group.items.length);
+            })}
+          </View>
+        </View>
+      )
+    } else {
+      let items;
+      if (group.items.length > 0) {
+        items = (
+          <View style={{borderTopWidth:1, borderBottomWidth:1, borderColor: this.props.borderColor}}>
+            {group.items.map((item, index) => {
+              return this._itemView(item,index, group.items.length);
+            })}
+          </View>
+        );
+      }
 
-		if (group.header) {
-			return (
-				<View key={'group_' + index}>
-					{group.other}
-					<Text
-						style={[{ margin: 5 }, group.header.headerStyle]}
-						numberOfLines={group.header.headerNumberOfLines}
-						ellipsizeMode="tail"
-						ref={group.header.headerRef}
-					>
-						{group.header.headerText}
-					</Text>
-					<View style={{ borderTopWidth: 1, borderBottomWidth: 1, borderColor: this.props.borderColor }}>
-						{group.items.map((item, index) => {
-							return this._itemView(item, index, group.items.length)
-						})}
-					</View>
-				</View>
-			)
-		} else {
-			return (
-				<View key={'group_' + index}>
-					{group.other}
-					{items}
-				</View>
-			)
-		}
-	}
+      return (
+        <View key={'group_' + index}>
+          {items}
+        </View>
+      )
+    }
+  }
 
 	_itemEditableBlock(item, index, position) {
 		return [
@@ -187,8 +176,25 @@ class SettingsList extends React.Component {
 				index === max - 1 ? { borderWidth: 0 } : { borderBottomWidth: 1, borderColor: this.props.borderColor }
 		}
 
-		let titleInfoPosition = item.titleInfoPosition ? item.titleInfoPosition : this.props.defaultTitleInfoPosition
 
+  _itemView(item, index, max){
+    var border;
+
+    if (item.type && item.type.displayName) {
+        return item;
+    }
+
+    if(item.borderHide) {
+      switch(item.borderHide) {
+        case 'Top' : border = {borderBottomWidth:1, borderColor: this.props.borderColor}; break;
+        case 'Bottom' : border = {borderTopWidth:1, borderColor: this.props.borderColor}; break;
+      }
+    } else {
+      border = index === max-1 ? {borderWidth:0} : {borderBottomWidth:1, borderColor: this.props.borderColor};
+    }
+    
+    let titleInfoPosition = item.titleInfoPosition ? item.titleInfoPosition : this.props.defaultTitleInfoPosition;
+    
 		return (
 			<TouchableHighlight
 				accessible={false}
@@ -323,18 +329,18 @@ const styles = StyleSheet.create({
  * Optional Header for groups
  */
 SettingsList.Header = createReactClass({
-	propTypes: {
-		headerText: PropTypes.string,
-		headerStyle: Text.propTypes.style,
-		headerRef: PropTypes.func,
-		headerNumberOfLines: PropTypes.number,
-	},
-	getDefaultProps() {
-		return {
-			headerNumberOfLines: 1,
-		}
-	},
-	/**
+  propTypes: {
+    headerText: PropTypes.string,
+    headerStyle: Text.propTypes.style,
+    headerRef: PropTypes.func,
+    headerNumberOfLines: PropTypes.number,
+  },
+  getDefaultProps() {
+    return {
+      headerNumberOfLines: 1,
+    };
+  },
+  /**
    * not directly rendered
    */
 	render() {
@@ -346,8 +352,8 @@ SettingsList.Header = createReactClass({
  * Individual Items in the Settings List
  */
 SettingsList.Item = createReactClass({
-	propTypes: {
-		/**
+  propTypes: {
+    /**
      * Title being displayed
      */
 		title: PropTypes.string,
@@ -439,15 +445,14 @@ SettingsList.Item = createReactClass({
 		rightSideContent: PropTypes.node,
 		/* Gives opens to hide specific borders */
 		borderHide: PropTypes.oneOf(['Top', 'Bottom', 'Both']),
-
-		itemRef: PropTypes.func,
-	},
-	getDefaultProps() {
-		return {
-			hasNavArrow: true,
-		}
-	},
-	/**
+    itemRef: PropTypes.func,
+  },
+  getDefaultProps(){
+    return {
+      hasNavArrow: true
+    }
+  },
+  /**
    * not directly rendered
    */
 	render() {
