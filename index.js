@@ -126,6 +126,7 @@ class SettingsList extends React.Component {
         item.isEditable ?
         <TextInput
               key={item.id}
+              multiline={item.multiline}
               style={item.editableTextStyle ? item.editableTextStyle : styles.editableText}
               placeholder = {item.placeholder}
               onChangeText={(text) => item.onTextChange(text)}
