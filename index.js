@@ -116,6 +116,7 @@ class SettingsList extends React.Component {
     return ([
         <Text
             key={'itemTitle_' + index}
+            numberOfLines={1}
             style={[
               item.titleStyle ? item.titleStyle : this.props.defaultTitleStyle,
               position === 'Bottom' ? null : styles.titleText
@@ -137,6 +138,7 @@ class SettingsList extends React.Component {
     return ([
       <Text
           key={'itemTitle_' + index}
+            numberOfLines={1}
           style={[
             item.titleStyle ? item.titleStyle : this.props.defaultTitleStyle,
             position === 'Bottom' ? null : styles.titleText
